@@ -61,6 +61,8 @@ public_users.get('/review/:isbn',function (req, res) {
   let bookDetails3 = Object.values(books)
   the_review = (bookDetails3[ISBN]);
   console.log(the_review);
+  //let filteredBooks3 = bookDetails3.filter(book => book.title === title);
+  //res.send(filteredBooks3[isbn]);
   res.send(the_review.reviews);
 });
 
