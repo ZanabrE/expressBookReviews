@@ -75,7 +75,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
   let accessToken = jwt.sign({
     data: myUsername
-  }, 'access', { expiresIn: 60*5 });
+  }, 'access', { expiresIn: 60 * 5 });
 
   req.session.authorization.accessToken = accessToken;
 
