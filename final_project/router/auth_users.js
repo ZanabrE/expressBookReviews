@@ -81,9 +81,9 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     if (books[myIsbn].reviews && books[myIsbn].reviews.hasOwnProperty(myUsername)) {
       delete books[myIsbn].reviews[myUsername];
       req.session.books = books;
-      return res.status(200).send(books);
+      res.send(books);
     } else {
-      return res.status(404).send("Review not found or you don't have permission to delete this review.");
+      res.send("Review not found or you don't have permission to delete this review.");
     }
   });
 
