@@ -73,6 +73,20 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     }
   });
 
+// Delete a book review by using isbn from parameter and filtering by username
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const myIsbn = parseInt(req.params.isbn);
+    const myUsername = req.session.authorization.username;
+  
+    if (books[myIsbn].reviews && books[myIsbn].reviews.hasOwnProperty(myUsername)) {
+      delete books[myIsbn].reviews[myUsername];
+      req.session.books = books;
+      return res.status(200).send(books);
+    } else {
+      return res.status(404).send("Review not found or you don't have permission to delete this review.");
+    }
+  });
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
