@@ -83,7 +83,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
       req.session.books = books;
       res.send(books);
     } else {
-      res.send("Review not found or you don't have permission to delete this review.");
+      res.send("Review not found!.");
     }
   });
 
