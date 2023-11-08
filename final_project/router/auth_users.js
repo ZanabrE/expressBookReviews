@@ -56,31 +56,22 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  const myIsbn = parseInt(req.params.isbn);
-  const myReview = req.query.review;
-  const myUsername = req.session.authorization.username;
 
-  if (!books[myIsbn].reviews) {
-    books[myIsbn].reviews = {};
-  }
-
-  // Retain the existing reviews while adding a new one
-  books[myIsbn].reviews = {
-    ...books[myIsbn].reviews,
-    [myUsername]: myReview
-  };
-
-  req.session.books = books;
-
-  let accessToken = jwt.sign({
-    data: myUsername
-  }, 'access', { expiresIn: 60 * 5 });
-
-  req.session.authorization.accessToken = accessToken;
-
-  return res.status(300).send(books);
-});
+    const isbn = req.params.isbn;
+    let filtered_book = books[isbn]
+    if (filtered_book) {
+        let review = req.query.review;
+        let reviewer = req.session.authorization['username'];
+        if(review) {
+            filtered_book['reviews'][reviewer] = review;
+            books[isbn] = filtered_book;
+        }
+        res.send(`The review for the book with ISBN  ${isbn} has been added/updated.`);
+    }
+    else{
+        res.send("Unable to find this ISBN!");
+    }
+  });
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
